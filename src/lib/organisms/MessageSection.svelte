@@ -23,10 +23,10 @@
 
 <section 
   bind:this={sectionRef}
-  class="min-h-screen w-full flex flex-col items-center justify-center bg-bg relative px-6"
+  class="min-h-screen w-full flex flex-col items-center justify-center bg-white relative px-6"
 >
   <div class="message-text">
-    <Typography tag="h2" variant="subtitle" color="primary" align="center">
+    <Typography tag="h2" variant="subtitle" color="dark" align="center">
       Un capítulo nuevo
     </Typography>
   </div>
@@ -37,9 +37,9 @@
     </Typography>
   </div>
 
-  <div class="message-text mt-12 border-l-2 border-primary/20 pl-6">
-    <Typography tag="p" variant="body" color="gray" align="center">
-      Gracias por cada sonrisa y por dejarme ser parte de tu historia.
+  <div class="message-text mt-12 border-l-2 border-black/10 pl-6 opacity-50">
+    <Typography tag="p" variant="body" color="dark" align="center">
+      Gracias por ser tú y por cada momento compartido.
     </Typography>
   </div>
 </section>

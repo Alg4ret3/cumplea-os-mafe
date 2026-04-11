@@ -3,13 +3,15 @@
   import ImageReveal from '../atoms/ImageReveal.svelte';
 </script>
 
-<section class="min-h-screen py-32 px-6 bg-bg flex flex-col items-center">
+<section class="min-h-screen py-32 px-6 bg-white flex flex-col items-center">
   <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
     <div class="flex flex-col justify-center space-y-8">
-      <Typography tag="h2" variant="title">Momentos que guardo en el corazón</Typography>
-      <Typography tag="p" variant="body" color="gray">
-        Cada instante contigo es un regalo. En este día tan especial, quiero recordar lo afortunado que soy de tenerte.
-      </Typography>
+      <Typography tag="h2" variant="title" color="dark">Momentos que guardo en el corazón</Typography>
+      <div class="opacity-60">
+        <Typography tag="p" variant="body" color="dark">
+            Cada instante contigo es un regalo. En este día tan especial, quiero recordar lo afortunado que soy de tenerte.
+        </Typography>
+      </div>
     </div>
     
     <div class="h-[600px]">
@@ -27,9 +29,13 @@
       />
     </div>
 
-    <div class="flex flex-col justify-end space-y-6 pb-12">
-      <Typography tag="p" variant="subtitle" color="primary">Gracias por ser tú</Typography>
-      <div class="w-full h-px bg-primary/20"></div>
+    <div class="flex flex-col justify-center space-y-8">
+      <div class="border-l-2 border-black/10 pl-6 py-4">
+        <Typography tag="p" variant="subtitle" color="dark">
+          "Gracias por cada sonrisa y por dejarme ser parte de tu historia."
+        </Typography>
+      </div>
+      <div class="w-full h-px bg-black/10"></div>
     </div>
   </div>
 </section>
