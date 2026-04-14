@@ -228,29 +228,75 @@
 					position: absolute;
 					width: 350px;
 					height: 480px;
-					background: linear-gradient(135deg, #2a2a2a 0%, #000 100%);
+					background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
 					border-radius: 4px;
 					transform-origin: left center;
 					transform: translateZ(2px);
-					box-shadow: 4px 4px 20px rgba(0,0,0,0.5);
+					box-shadow: 6px 6px 25px rgba(0,0,0,0.6);
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
-					gap: 8px;
+					gap: 12px;
 					border: 1px solid rgba(255,255,255,0.1);
+					overflow: hidden;
 				"
 			>
+				<!-- Decorative geometric pattern -->
+				<div style="position: absolute; inset: 0; opacity: 0.08;">
+					<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<pattern
+								id="geometric"
+								x="0"
+								y="0"
+								width="40"
+								height="40"
+								patternUnits="userSpaceOnUse"
+							>
+								<circle cx="20" cy="20" r="2" fill="white" />
+								<path d="M0 20h40M20 0v40" stroke="white" stroke-width="0.5" opacity="0.5" />
+								<rect
+									x="0"
+									y="0"
+									width="40"
+									height="40"
+									fill="none"
+									stroke="white"
+									stroke-width="0.3"
+								/>
+							</pattern>
+						</defs>
+						<rect width="100%" height="100%" fill="url(#geometric)" />
+					</svg>
+				</div>
+				<!-- Decorative corners -->
+				<div
+					style="position: absolute; top: 20px; left: 20px; width: 50px; height: 50px; border-top: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3);"
+				></div>
+				<div
+					style="position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; border-top: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3);"
+				></div>
+				<div
+					style="position: absolute; bottom: 20px; left: 20px; width: 50px; height: 50px; border-bottom: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3);"
+				></div>
+				<div
+					style="position: absolute; bottom: 20px; right: 20px; width: 50px; height: 50px; border-bottom: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3);"
+				></div>
 				<span
-					style="font-family: 'Playfair Display', serif; font-size: 28px; color: white; font-weight: bold; letter-spacing: 8px;"
+					style="font-family: 'Playfair Display', serif; font-size: 32px; color: white; font-weight: bold; letter-spacing: 6px;"
 					>MI BEBE</span
 				>
 				<span
-					style="font-family: 'Inter', sans-serif; font-size: 12px; color: white; opacity: 0.8; font-weight: 600; letter-spacing: 4px;"
-					>FELIZ CUMPLEAÑOS # 28</span
+					style="font-family: 'Inter', sans-serif; font-size: 14px; color: white; opacity: 0.9; font-weight: 600; letter-spacing: 6px;"
+					>FELIZ CUMPLEAÑOS</span
 				>
 				<span
-					style="font-family: 'Inter', sans-serif; font-size: 8px; color: white; opacity: 0.5; letter-spacing: 8px;"
+					style="font-family: 'Playfair Display', serif; font-size: 24px; color: white; font-weight: bold;"
+					># 28</span
+				>
+				<span
+					style="font-family: 'Inter', sans-serif; font-size: 10px; color: white; opacity: 0.6; letter-spacing: 10px; margin-top: 10px;"
 					>22 DE ABRIL</span
 				>
 			</div>
