@@ -1,221 +1,405 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-  import Typography from '../atoms/Typography.svelte';
+	import { onMount } from 'svelte';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+	import Typography from '../atoms/Typography.svelte';
 
-  let heroContainer: HTMLElement;
-  let svgBook: SVGSVGElement;
-  let cover: SVGGElement;
-  let floatingContainer: HTMLElement;
+	let heroContainer: HTMLElement;
+	let bookWrapper: HTMLDivElement;
+	let bookCover: HTMLDivElement | null = null;
+	let bookPages: HTMLDivElement | null = null;
 
-  const photos = [
-    "https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/wyitikbqijztuqmajvu1.jpg",
-    "https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930331/vndzhakwmene22rzhz7h.jpg",
-    "https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/uxj92iubgljh5vt5vdmt.jpg",
-    "https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/sek8u2lrrdniabrc1kku.jpg"
-  ];
+	const photos = [
+		{
+			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/wyitikbqijztuqmajvu1.jpg',
+			text: 'El primer capítulo de nuestra historia...'
+		},
+		{
+			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930331/vndzhakwmene22rzhz7h.jpg',
+			text: 'Momentos que stays en mi memoria'
+		},
+		{
+			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/uxj92iubgljh5vt5vdmt.jpg',
+			text: 'Compartiendo risas y aventuras'
+		},
+		{
+			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/sek8u2lrrdniabrc1kku.jpg',
+			text: 'Gracias por cada momento juntos'
+		},
+		{
+			url: null,
+			text: 'Feliz cumpleaños mi corazon'
+		}
+	];
 
-  let days = $state(0);
-  let hours = $state(0);
-  let minutes = $state(0);
-  let seconds = $state(0);
+	let days = $state(0);
+	let hours = $state(0);
+	let minutes = $state(0);
+	let seconds = $state(0);
 
-  function updateCountdown() {
-      const targetDate = new Date('2026-04-22T00:00:00').getTime();
-      const now = new Date().getTime();
-      const difference = targetDate - now;
+	function updateCountdown() {
+		const targetDate = new Date('2026-04-22T00:00:00').getTime();
+		const now = new Date().getTime();
+		const difference = targetDate - now;
 
-      if (difference > 0) {
-          days = Math.floor(difference / (1000 * 60 * 60 * 24));
-          hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-          seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      }
-  }
+		if (difference > 0) {
+			days = Math.floor(difference / (1000 * 60 * 60 * 24));
+			hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+			seconds = Math.floor((difference % (1000 * 60)) / 1000);
+		}
+	}
 
-  onMount(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
+	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: heroContainer,
-        start: "top top",
-        end: "+=320%", // Compacted scroll distance
-        scrub: 1.2,
-        pin: true,
-        anticipatePin: 1
-      }
-    });
+		updateCountdown();
+		const timer = setInterval(updateCountdown, 1000);
 
-    gsap.set(svgBook, { transformOrigin: "50% 50%", force3D: true });
-    
-    const floatingImages = floatingContainer.querySelectorAll('.floating-photo');
-    floatingImages.forEach((img, i) => {
-        gsap.set(img, { 
-            z: -2500, 
-            autoAlpha: 0,
-            scale: 0.1,
-            xPercent: -50,
-            yPercent: -50,
-            left: "50%",
-            top: "50%",
-            rotationZ: i % 2 === 0 ? 4 : -4,
-            force3D: true
-        });
-    });
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: heroContainer,
+				start: 'top top',
+				end: '+=500%',
+				scrub: true,
+				pin: true,
+				anticipatePin: 1
+			}
+		});
 
-    // 1. Initial Phase
-    tl.to('.countdown-container', { autoAlpha: 0, y: -20, duration: 0.4 }, 0);
+		// 1. Initial Phase - Hide countdown
+		tl.to('.countdown-container', { autoAlpha: 0, y: -20, duration: 0.4 }, 0);
 
-    // 2. Portal Phase
-    tl.to(cover, {
-      rotateY: -110,
-      scaleX: 0.4,
-      autoAlpha: 0,
-      x: -150,
-      duration: 1.2,
-      ease: "power2.inOut"
-    }, 0.1);
+		// 2. Book Opening Animation
+		if (bookCover) {
+			tl.to(bookCover, { rotateY: -120, x: -100, duration: 1.5, ease: 'power2.inOut' }, 0.2);
+		}
 
-    tl.to(svgBook, {
-      scale: 100,
-      autoAlpha: 0,
-      duration: 2,
-      ease: "power2.in"
-    }, 0.3);
+		if (bookPages) {
+			tl.to(bookPages, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 0.5);
+		}
 
-    // 3. Sequential Transitions (Compact timing)
-    floatingImages.forEach((img, i) => {
-        const start = 1.8 + (i * 2.2); // First photo starts almost right after book explosion
-        
-        // Entry
-        tl.fromTo(img, 
-            { autoAlpha: 0, scale: 0.1, z: -2500, filter: "blur(10px)" },
-            { 
-                autoAlpha: 1, 
-                scale: 1, 
-                z: 0, 
-                filter: "blur(0px)",
-                duration: 1, 
-                ease: "power3.out" 
-            }, 
-            start
-        );
+		// 3. Page flip animation - 4 pages (page 0 visible initially)
+		const pageSheets = bookPages?.querySelectorAll('.page-sheet') as NodeListOf<HTMLElement>;
 
-        // Zoom 
-        tl.to(img, {
-            scale: 1.2,
-            z: 500,
-            duration: 0.8,
-            ease: "none"
-        }, start + 1);
+		// Set initial states
+		pageSheets?.forEach((page, i) => {
+			if (i === 0) {
+				gsap.set(page, { rotationY: 0, transformOrigin: 'left center', opacity: 1, force3D: true });
+			} else {
+				gsap.set(page, { rotationY: 0, transformOrigin: 'left center', opacity: 0, force3D: true });
+			}
+		});
 
-        // Exit
-        tl.to(img, {
-            autoAlpha: 0,
-            z: 3500,
-            scale: 10,
-            filter: "blur(15px)",
-            duration: 0.8,
-            ease: "power2.in"
-        }, start + 1.8);
-    });
+		// Animate all 4 pages: pages 1, 2, 3 flip to reveal next page
+		// Page 0 flips at the very end to show the back
+		pageSheets?.forEach((page, i) => {
+			const start = 2 + i * 2;
 
-    // 4. CLEAN EXIT: Fade out hero to pass to section
-    tl.to(heroContainer, { 
-        autoAlpha: 0, 
-        duration: 0.5 
-    }, "=+0.2"); // Happens IMMEDIATELY after last photo exit
+			// Make page visible (except page 0 which starts visible)
+			if (i > 0) {
+				tl.to(page, { opacity: 1, duration: 0.5, force3D: true }, start - 0.5);
+			}
 
-    return () => clearInterval(timer);
-  });
+			// Flip page to left
+			tl.to(
+				page,
+				{
+					rotationY: -90,
+					duration: 1.5,
+					ease: 'power2.inOut',
+					force3D: true
+				},
+				start
+			);
+		});
+
+		// 4. Close the book
+		if (bookPages) {
+			tl.to(bookPages, { opacity: 0, duration: 1 }, '+=1');
+		}
+		if (bookCover) {
+			tl.to(bookCover, { rotateY: 0, x: 0, duration: 1.2, ease: 'power2.inOut' }, '-=0.8');
+		}
+
+		// 5. Very subtle fade - no black flash
+		tl.to('.book-wrapper', { opacity: 0, duration: 0.8 }, '+=0.5');
+
+		return () => clearInterval(timer);
+	});
 </script>
 
-<section 
-  bind:this={heroContainer}
-  class="relative h-screen w-full flex flex-col items-center justify-center bg-white overflow-hidden"
-  style="perspective: 1500px;"
+<section
+	bind:this={heroContainer}
+	class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden"
+	style="perspective: 1500px; background: #f8f8f8;"
 >
-  <div class="absolute inset-0 opacity-[0.012] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')] z-0"></div>
+	<div
+		class="pointer-events-none absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')] opacity-[0.015]"
+	></div>
 
-  <!-- Space for Floating Photos -->
-  <div bind:this={floatingContainer} class="absolute inset-0 pointer-events-none z-40 flex items-center justify-center overflow-hidden" style="transform-style: preserve-3d;">
-      {#each photos as url, i (url)}
-        <div class="floating-photo absolute w-[320px] aspect-[1/1.2] bg-white rounded-sm shadow-2xl overflow-hidden will-change-transform border-[10px] border-white">
-            <img src="{url}?auto=format&fit=crop&q=70&w=600" alt="Recuerdo" class="w-full h-full object-cover" />
-        </div>
-      {/each}
-  </div>
+	<!-- Countdown -->
+	<div
+		class="countdown-container absolute top-20 z-30 flex flex-col items-center gap-6 will-change-transform"
+	>
+		<Typography tag="span" variant="caption" color="dark">EL VIAJE COMIENZA . . .</Typography>
+		<div class="flex gap-12">
+			{#each [{ v: days, l: 'Días' }, { v: hours, l: 'Hrs' }, { v: minutes, l: 'Min' }, { v: seconds, l: 'Seg' }] as item, idx (idx)}
+				<div class="flex flex-col items-center">
+					<span class="font-numbers text-5xl font-light tracking-tighter text-dark">{item.v}</span>
+					<span class="mt-2 text-[9px] font-bold tracking-[4px] uppercase opacity-20">{item.l}</span
+					>
+				</div>
+			{/each}
+		</div>
+	</div>
 
-  <!-- Countdown -->
-  <div class="countdown-container absolute top-20 z-30 flex flex-col items-center gap-6 will-change-transform">
-      <Typography tag="span" variant="caption" color="dark">EL VIAJE COMIENZA . . .</Typography>
-      <div class="flex gap-12">
-          {#each [{v: days, l: 'Días'}, {v: hours, l: 'Hrs'}, {v: minutes, l: 'Min'}, {v: seconds, l: 'Seg'}] as item, idx (idx)}
-            <div class="flex flex-col items-center">
-                <span class="text-5xl font-numbers text-dark tracking-tighter font-light">{item.v}</span>
-                <span class="text-[9px] tracking-[4px] opacity-20 uppercase font-bold mt-2">{item.l}</span>
-            </div>
-          {/each}
-      </div>
-  </div>
+	<!-- The Portal Book - 3D CSS Version -->
+	<div
+		bind:this={bookWrapper}
+		class="book-wrapper relative z-20 flex h-full w-full items-center justify-center pt-20"
+		style="perspective: 2000px; transform-style: preserve-3d;"
+	>
+		<div class="book-container" style="transform-style: preserve-3d;">
+			<!-- Back Cover -->
+			<div
+				class="back-cover"
+				style="
+				position: absolute;
+				width: 350px;
+				height: 480px;
+				background: linear-gradient(135deg, #111 0%, #222 100%);
+				border-radius: 4px;
+				transform: translateZ(-2px);
+				box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+			"
+			></div>
 
-  <!-- The Portal Book -->
-  <div class="relative z-20 w-full h-full flex items-center justify-center pt-20 will-change-transform">
-    <svg 
-      bind:this={svgBook}
-      viewBox="0 0 500 650" 
-      class="w-[350px] h-[480px] overflow-visible"
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="bookBlack" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#2a2a2a" />
-            <stop offset="100%" stop-color="#000000" />
-        </linearGradient>
-        <linearGradient id="silverGradient" x1="0" y1="0" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="100%" stop-color="#999999" />
-        </linearGradient>
-      </defs>
-      <rect x="65" y="65" width="370" height="520" rx="10" fill="rgba(0,0,0,0.06)" />
-      <rect x="50" y="50" width="400" height="550" rx="4" fill="#111111" />
-      <g class="pages-thickness">
-          {#each { length: 8 } as _, pageIdx (pageIdx)}
-            <rect x={55 + (pageIdx*0.8)} y={55} width={390 - (pageIdx*1.5)} height={540} rx="2" fill="#fdfdfd" stroke="#f0f0f0" stroke-width="0.5" />
-          {/each}
-      </g>
-      <g class="pages-content"><rect x="62" y="60" width="376" height="530" fill="white" /></g>
-      <rect x="35" y="50" width="35" height="550" fill="#000000" rx="4" />
-      <g bind:this={cover} class="origin-left">
-          <rect x="50" y="50" width="400" height="550" rx="4" fill="url(#bookBlack)" />
-          <rect x="75" y="75" width="350" height="500" rx="2" stroke="url(#silverGradient)" stroke-width="0.5" stroke-opacity="0.3" fill="none" />
-          <g filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))">
-              <text x="50%" y="42%" dominant-baseline="middle" text-anchor="middle" font-family="Playfair Display" font-size="28" fill="white" font-weight="bold" letter-spacing="8">M . A . F . E</text>
-              <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" font-family="Inter" font-size="12" fill="white" opacity="0.8" font-weight="600" letter-spacing="4">CUMPLEAÑOS # 28</text>
-              <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Inter" font-size="8" fill="white" opacity="0.5" letter-spacing="8">22 DE ABRIL</text>
-          </g>
-      </g>
-    </svg>
-  </div>
+			<!-- Pages Block with page flip effect -->
+			<div
+				bind:this={bookPages}
+				class="book-pages"
+				style="
+					position: absolute;
+					width: 340px;
+					height: 470px;
+					opacity: 0;
+				"
+			>
+				<!-- Each page is a flippable sheet with front and back -->
+				<div class="pages-stack">
+					{#each photos as photo, i (photo.url || i)}
+						<div class="page-sheet" data-page={i} style="z-index: {photos.length - i};">
+							<!-- Front of page (photo + text) -->
+							<div class="page-front">
+								<div class="page-paper">
+									<div class="page-content">
+										{#if photo.url}
+											<div class="photo-image">
+												<img src="{photo.url}?auto=format&fit=crop&q=70&w=600" alt="Recuerdo" />
+											</div>
+										{:else}
+											<div class="final-message">
+												<p>{photo.text}</p>
+											</div>
+										{/if}
+										<div class="photo-text">
+											<p>{photo.text}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Back of page (visible when flipped to left) -->
+							<div class="page-back">
+								<div class="page-back-content">
+									<span class="page-number">{i + 1}</span>
+								</div>
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
+
+			<!-- Front Cover -->
+			<div
+				bind:this={bookCover}
+				class="front-cover"
+				style="
+					position: absolute;
+					width: 350px;
+					height: 480px;
+					background: linear-gradient(135deg, #2a2a2a 0%, #000 100%);
+					border-radius: 4px;
+					transform-origin: left center;
+					transform: translateZ(2px);
+					box-shadow: 4px 4px 20px rgba(0,0,0,0.5);
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					gap: 8px;
+					border: 1px solid rgba(255,255,255,0.1);
+				"
+			>
+				<span
+					style="font-family: 'Playfair Display', serif; font-size: 28px; color: white; font-weight: bold; letter-spacing: 8px;"
+					>MI BEBE</span
+				>
+				<span
+					style="font-family: 'Inter', sans-serif; font-size: 12px; color: white; opacity: 0.8; font-weight: 600; letter-spacing: 4px;"
+					>FELIZ CUMPLEAÑOS # 28</span
+				>
+				<span
+					style="font-family: 'Inter', sans-serif; font-size: 8px; color: white; opacity: 0.5; letter-spacing: 8px;"
+					>22 DE ABRIL</span
+				>
+			</div>
+		</div>
+	</div>
 </section>
 
 <style>
-  .will-change-transform {
-    will-change: transform, opacity, filter;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
-  svg { overflow: visible !important; }
-  .floating-photo {
-    transform-style: preserve-3d;
-    opacity: 0;
-    visibility: hidden;
-    filter: blur(10px);
-  }
+	.will-change-transform {
+		will-change: transform, opacity, filter;
+		backface-visibility: hidden;
+		transform-style: preserve-3d;
+	}
+	.book-wrapper {
+		will-change: transform, opacity;
+	}
+	.book-container {
+		position: relative;
+		width: 350px;
+		height: 480px;
+		transform-style: preserve-3d;
+	}
+	.book-pages {
+		transform-style: preserve-3d;
+		perspective: 1500px;
+	}
+	.book-pages,
+	.front-cover,
+	.back-cover {
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+	}
+	.pages-stack {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		transform-style: preserve-3d;
+	}
+	.page-sheet {
+		position: absolute;
+		inset: 0;
+		transform-style: preserve-3d;
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+	}
+	.page-sheet[data-page='0'] {
+		opacity: 1;
+	}
+	.page-front,
+	.page-back {
+		position: absolute;
+		inset: 0;
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+	}
+	.page-front {
+		transform: rotateY(0deg);
+		z-index: 1;
+	}
+	.page-back {
+		transform: rotateY(180deg);
+		background: linear-gradient(
+			90deg,
+			#e0e0e0 0%,
+			#f5f5f5 20%,
+			#fff 50%,
+			#f5f5f5 80%,
+			#e0e0e0 100%
+		);
+		border-radius: 0 3px 3px 0;
+		box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.05);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.page-back-content {
+		text-align: center;
+	}
+	.page-number {
+		font-family: 'Caveat', cursive;
+		font-size: 48px;
+		color: #bbb;
+		opacity: 0.5;
+	}
+	.page-paper {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			90deg,
+			#e8e8e8 0%,
+			#fefefe 8%,
+			#fff 15%,
+			#fff 85%,
+			#f8f8f8 92%,
+			#e0e0e0 100%
+		);
+		box-shadow:
+			inset -8px 0 20px rgba(0, 0, 0, 0.08),
+			inset 3px 0 8px rgba(0, 0, 0, 0.03);
+		border-radius: 0 3px 3px 0;
+		transform-style: preserve-3d;
+	}
+	.page-content {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 25px;
+		padding: 30px;
+	}
+	.photo-image {
+		width: 200px;
+		aspect-ratio: 1 / 1.3;
+		overflow: hidden;
+		border: 6px solid white;
+		background: white;
+		box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.15);
+		transform: rotate(-1deg);
+	}
+	.photo-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.photo-text {
+		padding: 0 20px;
+	}
+	.photo-text p {
+		font-family: 'Caveat', 'Dancing Script', cursive, serif;
+		font-size: 20px;
+		color: #444;
+		line-height: 1.5;
+		text-align: center;
+		font-style: italic;
+	}
+	.final-message {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+	.final-message p {
+		font-family: 'Caveat', cursive;
+		font-size: 32px;
+		color: #e91e63;
+		text-align: center;
+		line-height: 1.4;
+	}
 </style>
