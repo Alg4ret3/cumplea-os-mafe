@@ -28,7 +28,8 @@
 		},
 		{
 			url: null,
-			text: 'Feliz cumpleaños mi corazon'
+			text: 'Te amo mas de lo que las palabras pueden expresar',
+			footer: '14 / 04 / 2026'
 		}
 	];
 
@@ -79,7 +80,7 @@
 			tl.to(bookPages, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 0.5);
 		}
 
-		// 3. Page flip animation - 4 pages (page 0 visible initially)
+		// 3. Page flip animation - 5 pages (page 0 visible initially)
 		const pageSheets = bookPages?.querySelectorAll('.page-sheet') as NodeListOf<HTMLElement>;
 
 		// Set initial states
@@ -201,11 +202,16 @@
 										{:else}
 											<div class="final-message">
 												<p>{photo.text}</p>
+												{#if photo.footer}
+													<p class="final-footer">{photo.footer}</p>
+												{/if}
 											</div>
 										{/if}
-										<div class="photo-text">
-											<p>{photo.text}</p>
-										</div>
+										{#if photo.url}
+											<div class="photo-text">
+												<p>{photo.text}</p>
+											</div>
+										{/if}
 									</div>
 								</div>
 							</div>
@@ -437,6 +443,7 @@
 	}
 	.final-message {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		height: 100%;
@@ -444,8 +451,15 @@
 	.final-message p {
 		font-family: 'Caveat', cursive;
 		font-size: 32px;
-		color: #e91e63;
+		color: #000000;
 		text-align: center;
 		line-height: 1.4;
+	}
+	.final-footer {
+		font-family: 'Caveat', cursive;
+		font-size: 14px;
+		color: #888;
+		margin-top: 80px;
+		letter-spacing: 2px;
 	}
 </style>
