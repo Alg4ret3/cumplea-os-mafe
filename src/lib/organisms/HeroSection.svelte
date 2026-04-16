@@ -28,7 +28,7 @@
 		},
 		{
 			url: null,
-			text: 'Te amo mas de lo que las palabras pueden expresar',
+			text: 'Te amo mas de lo que mis palabras pueden expresar...',
 			footer: '14 / 04 / 2026'
 		}
 	];

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Feliz Cumpleaños Mafe | Una Invitación Especial</title>
+  <title>Feliz Cumpleaños Mi Corachon Especial</title>
 </svelte:head>
 
 <MainLayout />
