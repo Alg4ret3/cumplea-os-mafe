@@ -12,24 +12,24 @@
 	const photos = [
 		{
 			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/wyitikbqijztuqmajvu1.jpg',
-			text: 'El primer capítulo de nuestra historia...'
+			text: 'En este dia tan especial, mi corazón esta que estalla de felicidad al saber que ...'
 		},
 		{
 			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930331/vndzhakwmene22rzhz7h.jpg',
-			text: 'Momentos que stays en mi memoria'
+			text: 'No solamente es tu cumpleaños, tambien aquieres un nuevo logro a tu carrera profesional...'
 		},
 		{
 			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/uxj92iubgljh5vt5vdmt.jpg',
-			text: 'Compartiendo risas y aventuras'
+			text: 'No hay palabras para describir lo orgulloso y afortunado que soy de tenerte en mi vida, pero ...'
 		},
 		{
 			url: 'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1775930330/sek8u2lrrdniabrc1kku.jpg',
-			text: 'Gracias por cada momento juntos'
+			text: 'Quiero que sepas, que todo esto entre los dos, apenas esta empezando, y esta sera la primera de muchas aventuras juntos...'
 		},
 		{
 			url: null,
-			text: 'Te amo mas de lo que mis palabras pueden expresar...',
-			footer: '14 / 04 / 2026'
+			text: 'Con muchas cosas por decir, pero no hay palabras para describir lo que siento por ti eliz cumpleaños mi corachon y que Dios te bendiga siempre',
+			footer: '17/ 04 / 2026'
 		}
 	];
 

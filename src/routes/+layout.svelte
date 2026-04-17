@@ -1,51 +1,57 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-  import Lenis from 'lenis';
-  import MusicPlayer from '$lib/molecules/MusicPlayer.svelte';
-  import './layout.css';
+	import { onMount, setContext } from 'svelte';
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+	import Lenis from 'lenis';
+	import MusicPlayer from '$lib/molecules/MusicPlayer.svelte';
+	import './layout.css';
 
-  let { children } = $props();
+	let { children } = $props();
+	let musicPlayer: any;
 
-  onMount(() => {
-    // 1. Initialize Lenis
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      infinite: false,
-    });
+	setContext('musicPlayer', {
+		muteBackground: () => musicPlayer?.muteBackground(),
+		restoreBackground: () => musicPlayer?.restoreBackground()
+	});
 
-    // 2. Sync Lenis with ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+	onMount(() => {
+		// 1. Initialize Lenis
+		const lenis = new Lenis({
+			duration: 1.2,
+			easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+			orientation: 'vertical',
+			gestureOrientation: 'vertical',
+			smoothWheel: true,
+			wheelMultiplier: 1,
+			infinite: false
+		});
 
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+		// 2. Sync Lenis with ScrollTrigger
+		lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.lagSmoothing(0);
+		gsap.ticker.add((time) => {
+			lenis.raf(time * 1000);
+		});
 
-    return () => {
-      lenis.destroy();
-    };
-  });
+		gsap.ticker.lagSmoothing(0);
+
+		return () => {
+			lenis.destroy();
+		};
+	});
 </script>
 
 <div class="lenis-content">
-  <MusicPlayer />
-  {@render children()}
+	<MusicPlayer bind:this={musicPlayer} />
+	{@render children()}
 </div>
 
 <style>
-  :global(html.lenis, html.lenis body) {
-    height: auto;
-  }
+	:global(html.lenis, html.lenis body) {
+		height: auto;
+	}
 
-  .lenis-content {
-    width: 100%;
-  }
+	.lenis-content {
+		width: 100%;
+	}
 </style>

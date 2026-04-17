@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Feliz Cumpleaños Mi Corachon Especial</title>
+  <title>Feliz Cumpleaños Mi Corachon</title>
 </svelte:head>
 
 <MainLayout />

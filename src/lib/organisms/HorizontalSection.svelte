@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+	import Typography from '../atoms/Typography.svelte';
 
 	let sectionRef: HTMLElement;
 	let containerRef: HTMLElement;
@@ -11,28 +12,26 @@
 			image:
 				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776380880/aewv1lqcqoidflbknorc.png',
 			title: 'Nuestro Primer Momento',
-			text: 'El día que nuestras vidas cambiaron para siempre. Un instante que marcó el inicio de nuestra historia juntos.',
-			color: '#f8f8f8'
+			text: 'Te paso a recordar un poco de como ha sido nuestra historia hasta ahora, y todo lo que hemos vivido juntos... Como olvidar nuestra primer foto juntos'
 		},
 		{
 			image:
 				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776380879/ktrtpxkjbhfeqv91rus8.jpg',
-			title: 'Momentos Inolvidables',
-			text: 'Cada risa, cada conversación, cada silencio compartido construye lo que somos. Gracias por estar ahí.',
-			color: '#f0f0f0'
+			title: 'Fotos que no te gustan, pero a mi me encantan',
+			text: 'Esa foto y muchas mas, me hacen dar cuenta de lo mucho que me gustas y lo feliz que soy a tu lado, y sobretodo de que las risas no faltan cuando estamos juntos'
 		},
 		{
 			image:
 				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776380879/jxzgguyxwtuasgvpgccz.jpg',
-			title: 'Aventuras Juntos',
-			text: 'Los viajes, las bromas, los errores y los logros. Todo lo que vivimos es nuestro tesoro más valioso.',
+			title: 'Logros y Triunfos',
+			text: 'Verme lograr mis metes a tu lado me hace dar cuentao afortunado que soy en la vida, se muy bien que en tu logro no estoy contigo fiscamente, pero oye, no te olvides que donde quiera que estes, siempre estare, y de nuevo te lo digo, te felciito y eres una gran abogada, aunque peleas mucho jajaj',
 			color: '#e8e8e8'
 		},
 		{
 			image:
 				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776380879/yfcsmz84eanuudddvalh.jpg',
 			title: 'Por Siempre',
-			text: 'Te amo más de lo que las palabras pueden expresar. Mi presente y mi futuro son contigo. Feliz cumpleaños.',
+			text: 'Hasta el momento hemos tenido experiencias gratificantes y se que esto apenas esta empezando, y que nos esperan muchas cosas buenas por vivir juntos, y de nuevo te lo digo,  feliz cumpleaños mi amor y recuerdalo, el camino es largo y lo recorreremos juntos',
 			color: '#e0e0e0'
 		}
 	];
@@ -154,10 +153,18 @@
 					</div>
 
 					<!-- Título -->
-					<h2 class="panel-title">{panel.title}</h2>
+					<div class="panel-title">
+						<Typography tag="h2" variant="subtitle" align="center">
+							{panel.title}
+						</Typography>
+					</div>
 
 					<!-- Descripción -->
-					<p class="panel-text">{panel.text}</p>
+					<div class="panel-text">
+						<Typography tag="p" variant="body" color="gray" align="center">
+							{panel.text}
+						</Typography>
+					</div>
 				</div>
 			</article>
 		{/each}
@@ -249,25 +256,21 @@
 	   TEXTO
 	   ============================================== */
 	.panel-title {
-		font-family: 'Inter', sans-serif;
-		font-size: clamp(1.25rem, 5vw, 2rem);
-		font-weight: 400;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: #1a1a1a;
 		margin: 0;
-		line-height: 1.4;
+		line-height: 1.2;
+		font-family: 'Caveat', cursive;
+		font-size: clamp(2rem, 6vw, 3rem);
+		font-weight: 400;
+		color: #1a1a1a;
 	}
 
 	.panel-text {
-		font-family: 'Inter', sans-serif;
-		font-size: clamp(0.875rem, 3vw, 1rem);
-		font-weight: 300;
-		letter-spacing: 0.1em;
-		color: #666666;
-		line-height: 1.8;
 		max-width: 420px;
 		margin: 0;
+		line-height: 1.8;
+		font-family: 'Caveat', cursive;
+		font-size: clamp(1.25rem, 3vw, 1.5rem);
+		color: #444444;
 	}
 
 	/* ==============================================
