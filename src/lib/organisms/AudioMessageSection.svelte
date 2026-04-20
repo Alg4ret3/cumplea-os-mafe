@@ -8,23 +8,39 @@
 	let duration = $state(0);
 	let bars = $state(Array(25).fill(8));
 	let musicPlayer: any;
-
+	
 	const AUDIO_URL =
-		'https://res.cloudinary.com/dqky6oqrd/video/upload/v1776461782/nngrwi6kjlxgdjz4gwht.mp4';
+		'https://res.cloudinary.com/dqky6oqrd/video/upload/v1776726711/epzxph5ndz6fogcmwwd1.mp3';
 
 	onMount(() => {
 		// Obtener referencia al music player global
 		musicPlayer = getContext('musicPlayer');
 	});
-	const MESSAGE = `Hoy es un día muy especial, no solo porque celebras un año más de vida, sino porque celebramos que tu luz exista en este mundo.
+	const MESSAGE = `Hola, mi corazón:
 
-Eres la persona más increíble que conozco, con un corazón tan grande que llena todo a tu alrededor de amor y felicidad.
+No sabía o mejor dicho, no sé muy bien cómo empezar. Tengo tantas cosas en la cabeza y en el corazón que me cuesta ponerlas en palabras, pero voy a intentarlo.
 
-Cada día a tu lado es un regalo que valoro más de lo que las palabras pueden explicar. En este día tan especial quiero desearte todo el amor, toda la alegría y todas las cosas hermosas que te mereces.
+Ya estamos a pocos meses de cumplir un año desde que nos conocimos, y sinceramente, todo este tiempo contigo ha sido una de las cosas más bonitas que me han pasado en la vida. No lo digo solo en lo personal, sino en todos los aspectos; incluso en lo profesional has estado ahí, siempre con paciencia y con esa forma tan tuya de intentar entenderme. Créeme que lo valoro muchísimo.
 
-Que cada sueño que tienes se haga realidad, que cada día te sonrías tanto como tu me sonríes a mi.
+Siento que hay muchas cosas guardadas en mi corazón cosas buenas que no siempre logro expresar, tal vez porque no soy muy bueno abriéndome, pero eso no significa que no las sienta.
 
-Feliz cumpleaños mi vida, mi corazoncito, mi todo. Te amo para siempre.`;
+Quiero que tengas presente algo: si hay algo que nunca te va a faltar conmigo, es el agradecimiento. De mí hacia ti siempre van a salir palabras sinceras de gratitud. Gracias por tu tiempo, por tu amor y por todo lo que me has dado.
+
+Este detalle lo hice por dos razones muy especiales:
+La primera, porque hoy celebramos tu cumpleaños número 28.
+La segunda, porque acabas de lograr algo enorme: tu especialización.
+
+Son cosas de las que deberías sentirte profundamente orgullosa. Has logrado muchísimo, aunque a veces siento que no dimensionas lo valiosa que eres ni todo lo que has alcanzado. Pero desde mi perspectiva, cada día pienso qué increíble es tener a una persona tan responsable, juiciosa y, sobre todo, tan visionaria en lo que quiere.
+
+Eres una hija increíble y una profesional que se destaca, sin discusión. Y aunque quisiera decir mucho más, hay cosas que simplemente siento y no logro explicar.
+
+Todo esto lo hice con un solo propósito: que te sientas querida, que sientas lo importante que eres para mí. Desde el primer día te lo dije: para mí, lo más valioso son esas cosas que no se pueden comprar, como la paz y la tranquilidad que tú me das. Y eso, la verdad, no lo cambiaría por nada.
+
+Aún nos queda muchísimo camino por recorrer, y me hace feliz saber que quiero recorrerlo contigo.
+
+Hoy solo quiero desearte un feliz cumpleaños. Espero que llegues a Pasto y podamos celebrar juntos este logro tan importante.
+
+Te quiero, y quiero que sepas que siempre vas a tener un lugar muy especial en mi corazón.`;
 
 	let audio: HTMLAudioElement;
 	let writeInterval: any;

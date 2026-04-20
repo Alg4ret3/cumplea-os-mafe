@@ -29,7 +29,7 @@
 		},
 		{
 			image:
-				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776380879/yfcsmz84eanuudddvalh.jpg',
+				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776701623/be777mxow9ggcglmbv0r.jpg',
 			title: 'Por Siempre',
 			text: 'Hasta el momento hemos tenido experiencias gratificantes y se que esto apenas esta empezando, y que nos esperan muchas cosas buenas por vivir juntos, y de nuevo te lo digo,  feliz cumpleaños mi amor y recuerdalo, el camino es largo y lo recorreremos juntos',
 			color: '#e0e0e0'
