@@ -8,7 +8,7 @@
 	let duration = $state(0);
 	let bars = $state(Array(25).fill(8));
 	let musicPlayer: any;
-	
+
 	const AUDIO_URL =
 		'https://res.cloudinary.com/dqky6oqrd/video/upload/v1776726711/epzxph5ndz6fogcmwwd1.mp3';
 
@@ -80,6 +80,9 @@ Te quiero, y quiero que sepas que siempre vas a tener un lugar muy especial en m
 	}
 
 	function togglePlay() {
+		// BLOQUEADO HASTA QUE TERMINE EL TEMPORIZADOR
+		if (!(window as any).countdownFinished) return;
+
 		if (playing) {
 			fadeOutAndPause();
 			if ((window as any).musicPlayer) (window as any).musicPlayer.restore();
@@ -160,6 +163,9 @@ Te quiero, y quiero que sepas que siempre vas a tener un lugar muy especial en m
 				<button
 					on:click={togglePlay}
 					class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-900 p-5 text-white transition-colors hover:bg-gray-800"
+					disabled={!(window as any).countdownFinished}
+					class:opacity-50={!(window as any).countdownFinished}
+					class:cursor-not-allowed={!(window as any).countdownFinished}
 				>
 					{#if playing}
 						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

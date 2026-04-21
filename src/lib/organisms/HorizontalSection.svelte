@@ -24,14 +24,14 @@
 			image:
 				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776380879/jxzgguyxwtuasgvpgccz.jpg',
 			title: 'Logros y Triunfos',
-			text: 'Verme lograr mis metes a tu lado me hace dar cuentao afortunado que soy en la vida, se muy bien que en tu logro no estoy contigo fiscamente, pero oye, no te olvides que donde quiera que estes, siempre estare, y de nuevo te lo digo, te felciito y eres una gran abogada, aunque peleas mucho jajaj',
+			text: 'Verme lograr mis metes a tu lado me hace dar cuenta lo afortunado que soy en la vida, se muy bien que en tu logro no estoy contigo fiscamente, pero oye, no te olvides que donde quiera que estes, siempre estare, y de nuevo te lo digo, te felciito y eres una gran abogada, aunque peleas mucho jajaj',
 			color: '#e8e8e8'
 		},
 		{
 			image:
 				'https://res.cloudinary.com/dqky6oqrd/image/upload/f_auto,q_auto/v1776701623/be777mxow9ggcglmbv0r.jpg',
 			title: 'Por Siempre',
-			text: 'Hasta el momento hemos tenido experiencias gratificantes y se que esto apenas esta empezando, y que nos esperan muchas cosas buenas por vivir juntos, y de nuevo te lo digo,  feliz cumpleaños mi amor y recuerdalo, el camino es largo y lo recorreremos juntos',
+			text: 'Hasta el momento hemos tenido experiencias gratificantes y se que esto apenas esta empezando, y que nos esperan muchas cosas buenas por vivir juntos, y de nuevo te lo digo,  feliz cumpleaños mi amor y recuerdalo, el camino es largo y lo mejor es que lo recorreremos juntos',
 			color: '#e0e0e0'
 		}
 	];

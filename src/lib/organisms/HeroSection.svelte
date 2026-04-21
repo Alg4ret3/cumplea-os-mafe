@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+	import confetti from 'canvas-confetti';
 	import Typography from '../atoms/Typography.svelte';
 
 	let heroContainer: HTMLElement;
@@ -28,7 +29,7 @@
 		},
 		{
 			url: null,
-			text: 'Con muchas cosas por decir, pero no hay palabras para describir lo que siento por ti eliz cumpleaños mi corachon y que Dios te bendiga siempre',
+			text: 'Con muchas cosas por decir, pero no hay palabras para describir lo que siento por ti, feliz cumpleaños mi corachon y que Dios te bendiga siempre',
 			footer: '17/ 04 / 2026'
 		}
 	];
@@ -37,9 +38,60 @@
 	let hours = $state(0);
 	let minutes = $state(0);
 	let seconds = $state(0);
+	let countdownFinished = $state(false);
+	// Variable GLOBAL para bloquear audio
+	(window as any).countdownFinished = false;
+
+	function triggerConfetti() {
+		// Explosión principal
+		confetti({
+			particleCount: 150,
+			spread: 80,
+			origin: { y: 0.6 }
+		});
+
+		// Explosiones laterales
+		setTimeout(() => {
+			confetti({
+				particleCount: 80,
+				angle: 60,
+				spread: 55,
+				origin: { x: 0 }
+			});
+		}, 200);
+
+		setTimeout(() => {
+			confetti({
+				particleCount: 80,
+				angle: 120,
+				spread: 55,
+				origin: { x: 1 }
+			});
+		}, 400);
+
+		// Repetir 2 veces mas
+		setTimeout(() => confetti({ particleCount: 100, spread: 100 }), 600);
+		setTimeout(() => confetti({ particleCount: 100, spread: 100 }), 1000);
+
+		// LLUVIA DE CORAZONES
+		for (let i = 0; i < 8; i++) {
+			setTimeout(() => {
+				confetti({
+					particleCount: 8,
+					angle: 90,
+					spread: 120,
+					origin: { y: 0, x: Math.random() },
+					emoji: '❤️',
+					scalar: 1.2,
+					gravity: 0.6,
+					drift: 0
+				});
+			}, i * 400);
+		}
+	}
 
 	function updateCountdown() {
-		const targetDate = new Date('2026-04-22T00:00:00').getTime();
+		const targetDate = new Date('2026-04-21T17:45:00-05:00').getTime();
 		const now = new Date().getTime();
 		const difference = targetDate - now;
 
@@ -48,11 +100,31 @@
 			hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
 			seconds = Math.floor((difference % (1000 * 60)) / 1000);
+			// Bloquear scroll
+			document.body.style.overflow = 'hidden';
+		} else if (!countdownFinished) {
+			countdownFinished = true;
+			(window as any).countdownFinished = true;
+			triggerConfetti();
+			// DESBLOQUEAR SCROLL TOTALMENTE
+			document.body.style.overflow = '';
+			document.body.style.position = '';
+			document.body.style.width = '';
+			document.body.style.top = '';
+			document.body.style.touchAction = '';
 		}
 	}
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
+
+		// BLOQUEO TOTAL DE SCROLL DESDE EL PRINCIPIO
+		document.body.style.overflow = 'hidden';
+		document.body.style.position = 'fixed';
+		document.body.style.width = '100%';
+		document.body.style.top = '0';
+		document.body.style.touchAction = 'none';
+		window.scrollTo(0, 0);
 
 		updateCountdown();
 		const timer = setInterval(updateCountdown, 1000);
@@ -126,7 +198,15 @@
 		// 5. Very subtle fade - no black flash
 		tl.to('.book-wrapper', { opacity: 0, duration: 0.8 }, '+=0.5');
 
-		return () => clearInterval(timer);
+		return () => {
+			clearInterval(timer);
+			// Limpiar TODOS los estilos de bloqueo al desmontar
+			document.body.style.overflow = '';
+			document.body.style.position = '';
+			document.body.style.width = '';
+			document.body.style.top = '';
+			document.body.style.touchAction = '';
+		};
 	});
 </script>
 
@@ -143,16 +223,27 @@
 	<div
 		class="countdown-container absolute top-20 z-30 flex flex-col items-center gap-6 will-change-transform"
 	>
-		<Typography tag="span" variant="caption" color="dark">EL VIAJE COMIENZA . . .</Typography>
-		<div class="flex gap-12">
-			{#each [{ v: days, l: 'Días' }, { v: hours, l: 'Hrs' }, { v: minutes, l: 'Min' }, { v: seconds, l: 'Seg' }] as item, idx (idx)}
-				<div class="flex flex-col items-center">
-					<span class="font-numbers text-5xl font-light tracking-tighter text-dark">{item.v}</span>
-					<span class="mt-2 text-[9px] font-bold tracking-[4px] uppercase opacity-20">{item.l}</span
-					>
-				</div>
-			{/each}
-		</div>
+		{#if !countdownFinished}
+			<Typography tag="span" variant="caption" color="dark">EL VIAJE COMIENZA . . .</Typography>
+
+			<div class="flex gap-12">
+				{#each [{ v: days, l: 'Días' }, { v: hours, l: 'Hrs' }, { v: minutes, l: 'Min' }, { v: seconds, l: 'Seg' }] as item, idx (idx)}
+					<div class="flex flex-col items-center">
+						<span class="font-numbers text-5xl font-light tracking-tighter text-dark">{item.v}</span
+						>
+						<span class="mt-2 text-[9px] font-bold tracking-[4px] uppercase opacity-20"
+							>{item.l}</span
+						>
+					</div>
+				{/each}
+			</div>
+		{:else}
+			<div class="text-center transition-all duration-1000 ease-out">
+				<Typography tag="span" variant="caption" color="dark">
+					¡ FELIZ CUMPLEAÑOS MI CORACHON !
+				</Typography>
+			</div>
+		{/if}
 	</div>
 
 	<!-- The Portal Book - 3D CSS Version -->
@@ -303,14 +394,25 @@
 				>
 				<span
 					style="font-family: 'Inter', sans-serif; font-size: 10px; color: white; opacity: 0.6; letter-spacing: 10px; margin-top: 10px;"
-					>22 DE ABRIL</span
-				>
+					>22 - 04 - 1998
+				</span>
 			</div>
 		</div>
 	</div>
 </section>
 
 <style>
+	@keyframes fadeInUp {
+		0% {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
 	.will-change-transform {
 		will-change: transform, opacity, filter;
 		backface-visibility: hidden;

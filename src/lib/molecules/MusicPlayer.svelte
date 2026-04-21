@@ -8,7 +8,7 @@
 	let audio: HTMLAudioElement;
 	let isPlaying = $state(false);
 	let hasInteracted = $state(false);
-	let targetVolume = 0.50
+	let targetVolume = 0.5;
 	let fadeInterval: any;
 
 	onMount(() => {
@@ -40,6 +40,9 @@
 	}
 
 	function toggleMusic() {
+		// BLOQUEADO HASTA QUE TERMINE EL TEMPORIZADOR
+		if (!(window as any).countdownFinished) return;
+
 		if (isPlaying) {
 			fadeTo(0);
 			isPlaying = false;
@@ -54,7 +57,7 @@
 
 	onMount(() => {
 		const handleFirstInteraction = () => {
-			if (!hasInteracted) {
+			if (!hasInteracted && (window as any).countdownFinished) {
 				audio
 					.play()
 					.then(() => {
@@ -90,6 +93,9 @@
 	<button
 		onclick={toggleMusic}
 		class="pointer-events-auto relative flex h-14 w-14 items-center justify-center rounded-full border border-black/5 bg-white shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+		disabled={!(window as any).countdownFinished}
+		class:opacity-50={!(window as any).countdownFinished}
+		class:cursor-not-allowed={!(window as any).countdownFinished}
 		aria-label="Reproducir Música"
 	>
 		{#if isPlaying}
