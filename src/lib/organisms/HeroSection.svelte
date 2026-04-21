@@ -39,8 +39,6 @@
 	let minutes = $state(0);
 	let seconds = $state(0);
 	let countdownFinished = $state(false);
-	// Variable GLOBAL para bloquear audio
-	(window as any).countdownFinished = false;
 
 	function triggerConfetti() {
 		// Explosión principal
@@ -91,7 +89,7 @@
 	}
 
 	function updateCountdown() {
-		const targetDate = new Date('2026-04-21T17:45:00-05:00').getTime();
+		const targetDate = new Date('2026-04-22T00:00:00-05:00').getTime();
 		const now = new Date().getTime();
 		const difference = targetDate - now;
 
@@ -104,7 +102,6 @@
 			document.body.style.overflow = 'hidden';
 		} else if (!countdownFinished) {
 			countdownFinished = true;
-			(window as any).countdownFinished = true;
 			triggerConfetti();
 			// DESBLOQUEAR SCROLL TOTALMENTE
 			document.body.style.overflow = '';
